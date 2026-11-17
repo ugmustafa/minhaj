@@ -91,7 +91,9 @@ input,select{font:inherit;color:inherit}
 .focus .what{font-size:24px;font-weight:700;letter-spacing:-.3px;margin-top:2px}
 .focus .sub{font-size:13px;color:var(--muted);margin-top:4px}
 .focus .bar{margin-top:14px}
-.focus .acts{display:grid;grid-template-columns:1fr auto auto;gap:10px;margin-top:16px}
+.focus .acts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.focus .acts2{display:flex;gap:10px}
+.focus .acts2 .btn:first-child{flex:1;font-size:15px}
 .focus .acts .btn{min-height:56px}
 .focus .acts .btn.primary{font-size:17px}
 .focus.calm{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:30px 18px}

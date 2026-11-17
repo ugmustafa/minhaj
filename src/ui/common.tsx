@@ -209,9 +209,9 @@ function LogSheet({ req, onClose, onSaved }: { req: SheetReq; onClose: () => voi
           </div>
         )}
         {!req.review && (
-          <div className="quick">
-            {(isPages ? [1, 3, 5] : [0.5, 1, 2]).map((q) => (
-              <button key={q} className="btn sm" onClick={() => { setMode('count'); setN(q); }}>{isPages ? `+${q}` : q === 0.5 ? '½' : `${q}`}</button>
+          <div className="quick" style={{ gridTemplateColumns: `repeat(${isPages ? 4 : 3},1fr)` }}>
+            {(isPages ? [1, 5, 10, 20] : [0.5, 1, 2]).map((q) => (
+              <button key={q} className={`btn sm ${mode === 'count' && n === q ? 'soft' : ''}`} onClick={() => { setMode('count'); setN(q); }}>{isPages ? `${q} стр.` : q === 0.5 ? '½' : `${q}`}</button>
             ))}
           </div>
         )}

@@ -5,7 +5,7 @@ import { PRAYER_RU, PRAYER_GEN, PRAYERS, fmtMin } from '../lib/prayer';
 import { RU_WD, fmtDay, hijri, minuteOfStudyDay, parseHM, tsOf, addDays, weekday } from '../lib/time';
 import { setDayMode, today as todayOf } from '../lib/store';
 import { useUI, useTimer, setTimer, primaryLabel, Dot } from './common';
-import { ICheck, ITimer, IStop, IAsk, IMore, IWarn, IFeather, Star8 } from './icons';
+import { ICheck, ITimer, IStop, IAsk, IPlus, IWarn, IFeather, Star8 } from './icons';
 
 const AFTER: Record<string, string> = { fajr: 'после Фаджра', dhuhr: 'после Зухра', asr: 'после Асра', maghrib: 'после Магриба', isha: 'после Иша', sunrise: 'после восхода' };
 export function anchorText(inst: E.SlotInst): string {
@@ -95,12 +95,16 @@ export function NowScreen({ db, now }: { db: DB; now: number }) {
             </div>
             <div className="acts">
               <button className="btn primary" onClick={() => ui.quick(it)}><ICheck /> {primaryLabel(db, it)}</button>
-              {(r.unit === 'record' || r.unit === 'video') && !it.review
-                ? <button className="btn" aria-label="Половина" onClick={() => ui.openLog({ subject: it.subject, resource: r, preset: 0.5 })} style={{ minWidth: 56, fontSize: 20 }}>½</button>
-                : <button className="btn" aria-label="Другое количество" onClick={() => ui.openLog({ subject: it.subject, resource: r, review: it.review })} style={{ minWidth: 56 }}><IMore /></button>}
-              {timerOn
-                ? <button className="btn soft timer" onClick={() => { const m = Math.max(1, Math.round((Date.now() - timer!.start) / 60000)); setTimer(null); ui.openLog({ subject: it.subject, resource: r, minutes: m, review: it.review }); }}><IStop /> <TimerText start={timer!.start} /></button>
-                : <button className="btn" aria-label="Таймер" style={{ minWidth: 56 }} onClick={() => setTimer({ subjectId: it.subject.id, resourceId: r.id, start: Date.now() })}><ITimer /></button>}
+              <div className="acts2">
+                <button className="btn" onClick={() => ui.openLog({ subject: it.subject, resource: r, review: it.review })}>
+                  <IPlus size={18} /> {r.unit === 'page' || r.unit === 'qpage' || it.subject.mode === 'cycle' ? 'Другое число / до стр.' : 'Другое количество'}
+                </button>
+                {(r.unit === 'record' || r.unit === 'video') && !it.review &&
+                  <button className="btn" aria-label="Половина" onClick={() => ui.openLog({ subject: it.subject, resource: r, preset: 0.5 })} style={{ minWidth: 56, fontSize: 20 }}>½</button>}
+                {timerOn
+                  ? <button className="btn soft timer" onClick={() => { const m = Math.max(1, Math.round((Date.now() - timer!.start) / 60000)); setTimer(null); ui.openLog({ subject: it.subject, resource: r, minutes: m, review: it.review }); }}><IStop /> <TimerText start={timer!.start} /></button>
+                  : <button className="btn" aria-label="Таймер" style={{ minWidth: 56 }} onClick={() => setTimer({ subjectId: it.subject.id, resourceId: r.id, start: Date.now() })}><ITimer /></button>}
+              </div>
             </div>
           </section>
         ) : (
