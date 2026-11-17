@@ -137,9 +137,10 @@ function ActiveCard({ db, s, r, onEdit }: { db: DB; s: Subject; r: Resource; onE
             onChange={(e) => upsert('resources', { ...r, deadline: e.target.value || undefined })} />
         </div>
       )}
-      {item && (
-        <button className="btn primary" style={{ width: '100%', marginTop: 14 }} onClick={() => ui.quick(item)}><ICheck /> {primaryLabel(db, item)}</button>
-      )}
+      {true ? (
+        <button className="btn primary" style={{ width: '100%', marginTop: 14 }}
+          onClick={() => ui.openLog({ subject: s, resource: r })}><ICheck /> {r.unit === 'page' ? 'Отметить: сколько прочитал' : s.mode === 'cycle' ? 'Отметить повторение' : 'Отметить'}</button>
+      ) : null}
     </div>
   );
 }

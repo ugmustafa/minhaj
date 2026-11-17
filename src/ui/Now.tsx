@@ -115,6 +115,7 @@ export function NowScreen({ db, now }: { db: DB; now: number }) {
             <div className="muted" style={{ fontSize: 14 }}>
               {f.state === 'done' ? tomorrowLine(db, day) : kind === 'off' ? 'Отдыхайте — завтра продолжим' : ''}
             </div>
+            <button className="btn" style={{ marginTop: 8 }} onClick={() => { location.hash = 'subjects'; }}>Отметить занятие вне плана</button>
           </section>
         )}
         <button className="ask" onClick={() => setAnswer(answer ? null : E.focus(plan, nowMin, true))}><IAsk size={18} /> Что делать сейчас?</button>
