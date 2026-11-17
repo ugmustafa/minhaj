@@ -218,7 +218,7 @@ function LogSheet({ req, onClose, onSaved }: { req: SheetReq; onClose: () => voi
 
         <div className="label">Время занятия</div>
         <div className="toggle">
-          {[15, 30, 45, 60, 90].map((m) => (
+          {[15, 30, 40, 60, 90].map((m) => (
             <button key={m} className={mins === m ? 'on' : ''} onClick={() => setMins(mins === m ? undefined : m)}>{m} мин</button>
           ))}
         </div>
