@@ -45,8 +45,6 @@ export function seed(today: DayKey, now = Date.now()): DB {
   const L = (s: Omit<Slot, 'id' | 'updatedAt'>): Slot => ({ id: `s${++k}`, updatedAt: u, ...s });
   const slots: Slot[] = [
     L({ subjectId: 'hifz', anchor: { kind: 'fixed', time: '04:30' }, duration: 35, weekdays: SUNTHU, role: 'main' }),
-    L({ subjectId: 'hifz', anchor: { kind: 'prayer', prayer: 'fajr', offset: 20 }, duration: 25, weekdays: SUNTHU, role: 'main', label: 'закрепление' }),
-    L({ subjectId: 'mutun', anchor: { kind: 'fixed', time: '06:30' }, duration: 30, weekdays: [1, 3], role: 'review', label: 'повтор заученного' }),
     L({ subjectId: 'sarf', anchor: { kind: 'fixed', time: '14:00' }, duration: 30, weekdays: SUNTHU, role: 'main' }),
     L({ subjectId: 'nahw', anchor: { kind: 'prayer', prayer: 'asr', offset: 15 }, duration: 60, weekdays: SUNTHU, role: 'main' }),
     L({ subjectId: 'tawhid', anchor: { kind: 'prayer', prayer: 'asr', offset: 80 }, duration: 50, weekdays: SUNTHU, role: 'main' }),

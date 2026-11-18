@@ -86,7 +86,10 @@ function migrate(db: DB): DB {
   });
   // по просьбе студента: пропущенное не раскладывается на другие дни
   const subjects = db.subjects.map((x) => (x.carryDebt ? { ...x, carryDebt: false } : x));
-  return { ...db, subjects, resources, dayModes: db.dayModes ?? [], logs: db.logs ?? [] };
+  // по просьбе студента убраны: «Хифз · закрепление» и «Заучивание · повтор»
+  const slots = db.slots.map((x) => (!x.deleted && ((x.subjectId === 'hifz' && x.label === 'закрепление') || (x.subjectId === 'mutun' && x.role === 'review'))
+    ? { ...x, deleted: true, updatedAt: Date.now() } : x));
+  return { ...db, subjects, resources, slots, dayModes: db.dayModes ?? [], logs: db.logs ?? [] };
 }
 
 let saveTimer: number | undefined;
