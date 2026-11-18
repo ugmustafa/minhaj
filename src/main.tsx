@@ -84,6 +84,15 @@ init().then(() => {
 });
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
-  window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => undefined); });
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  // новая версия приложения встала — сразу перезагружаемся, чтобы не открывать дважды
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded) { reloaded = true; location.reload(); } });
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      const check = () => reg.update().catch(() => undefined);
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
+    }).catch(() => undefined);
+  });
 }
 void nowTs;

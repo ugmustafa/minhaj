@@ -1,3 +1,4 @@
+declare const __BUILD__: string;
 import React, { useRef, useState } from 'react';
 import type { DB, Slot, Anchor, DayModeKind } from '../lib/types';
 import * as E from '../lib/engine';
@@ -152,6 +153,17 @@ export function SettingsScreen({ db, goSubjects }: { db: DB; goSubjects: () => v
           <section>
             <div className="h2" style={{ margin: '0 2px 8px' }}>TickTick</div>
             <div className="card" style={{ padding: 14, fontSize: 14 }}>Напоминания через TickTick подключатся после выкладки приложения — сначала покажу список задач на утверждение.</div>
+          </section>
+
+          <section>
+            <div className="h2" style={{ margin: '0 2px 8px' }}>Версия</div>
+            <div className="between">
+              <span className="muted num" style={{ fontSize: 13 }}>от {__BUILD__}</span>
+              <button className="btn sm" onClick={async () => {
+                try { const reg = await navigator.serviceWorker?.getRegistration(); await reg?.update(); } catch { /**/ }
+                location.reload();
+              }}>Проверить обновление</button>
+            </div>
           </section>
 
           <section>
