@@ -11,13 +11,13 @@ export function seed(today: DayKey, now = Date.now()): DB {
     ({ id, ru, ar, color, order, mode, pauseInExam, carryDebt, minPerUnit, updatedAt: u });
 
   const subjects: Subject[] = [
-    S('hifz', 'Хифз', 'حفظ القرآن', '#2F6B57', 1, 'queue', false, true, 60),
+    S('hifz', 'Хифз', 'حفظ القرآن', '#2F6B57', 1, 'queue', false, false, 60),
     S('muraja', 'Мураджаа', 'مراجعة القرآن', '#4C7F8F', 2, 'cycle', false, false, 3),
-    S('nahw', 'Нахв', 'النحو', '#8A6A2F', 3, 'queue', true, true, 60),
-    S('sarf', 'Сарф', 'الصرف', '#7A5B86', 4, 'queue', true, true, 25),
-    S('tawhid', 'Таухид', 'التوحيد', '#3E6E8C', 5, 'queue', true, true, 60),
-    S('reading', 'Чтение', 'القراءة', '#8C5A45', 6, 'queue', true, true, 4),
-    S('mutun', 'Заучивание', 'حفظ المتون والأحاديث', '#5E7A3A', 7, 'alternate', true, true, 30),
+    S('nahw', 'Нахв', 'النحو', '#8A6A2F', 3, 'queue', true, false, 60),
+    S('sarf', 'Сарф', 'الصرف', '#7A5B86', 4, 'queue', true, false, 25),
+    S('tawhid', 'Таухид', 'التوحيد', '#3E6E8C', 5, 'queue', true, false, 60),
+    S('reading', 'Чтение', 'القراءة', '#8C5A45', 6, 'queue', true, false, 4),
+    S('mutun', 'Заучивание', 'حفظ المتون والأحاديث', '#5E7A3A', 7, 'alternate', true, false, 30),
     S('lesson', 'Урок: Китаб ат-таухид', 'درس كتاب التوحيد', '#6B6B3A', 8, 'weekly', true, false, 60),
   ];
 

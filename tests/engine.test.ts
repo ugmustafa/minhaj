@@ -72,35 +72,19 @@ test('переход на следующую книгу: последняя ст
   assert.equal(it.planned, 0);
 });
 
-test('долг: не больше +50% нормы и ни одна страница не теряется', () => {
+test('долг не раскладывается: после пропуска норма прежняя, место то же', () => {
   let db = fresh();
-  const s = E.subjectById(db, 'reading');
   const r = res(db, 'reading');
-  // вт 17, ср 18, чт 19 — пропущены (3 × 15 = 45 стр.)
-  const d0 = addDays(START, 3); // пт 20 — выходной
-  assert.equal(E.debtBefore(db, s, d0), 45);
-  let day = addDays(START, 4); // сб 21 — есть чтение
-  let paidTotal = 0;
-  for (let i = 0; i < 40; i++, day = addDays(day, 1)) {
-    const p = E.dayPlan(db, day).items.find((x) => x.subject.id === 'reading');
-    if (!p) continue;
-    const normV = E.norm(db, r, day);
-    assert.ok(p.addon <= normV * 0.5 + 1e-9, `добор ${p.addon} > 50% нормы`);
-    paidTotal += p.addon;
-    db = log(db, r.id, p.planned, day); // выполняет план полностью
-  }
-  assert.equal(paidTotal, 45, 'весь долг возвращён');
-  assert.equal(E.debtBefore(db, s, day), 0);
-});
-
-test('долг хифза раскладывается по полстраницы', () => {
-  const db = fresh();
-  const s = E.subjectById(db, 'hifz');
-  const p = E.dayPlan(db, addDays(START, 1)); // ср 18: долг 1 стр. со вторника
-  const h = p.items.find((i) => i.subject.id === 'hifz')!;
-  assert.equal(E.debtBefore(db, s, addDays(START, 1)), 1);
-  assert.equal(h.addon, 0.5);
-  assert.equal(h.planned, 1.5);
+  // вт, ср, чт пропущены
+  const sat = addDays(START, 4);
+  const p = E.dayPlan(db, sat).items.find((x) => x.subject.id === 'reading')!;
+  assert.equal(p.addon, 0);
+  assert.equal(p.planned, 15);
+  assert.equal(p.label, 'стр. 31–45');
+  const h = E.dayPlan(db, addDays(START, 1)).items.find((i) => i.subject.id === 'hifz')!;
+  assert.equal(h.planned, 1);
+  db = log(db, r.id, 15, sat);
+  assert.equal(E.position(db, r), 46);
 });
 
 test('граница учебного дня: 00:30 → вчера; 31 декабря; хиджрийский год', () => {

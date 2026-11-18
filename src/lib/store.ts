@@ -84,7 +84,9 @@ function migrate(db: DB): DB {
     if (r.subjectId === 'lesson' && r.unit === 'lesson') return { ...r, unit: 'page' as const, perDay: undefined, note: 'Раз в неделю, сокращённо · отмечайте страницы' };
     return r;
   });
-  return { ...db, resources, dayModes: db.dayModes ?? [], logs: db.logs ?? [] };
+  // по просьбе студента: пропущенное не раскладывается на другие дни
+  const subjects = db.subjects.map((x) => (x.carryDebt ? { ...x, carryDebt: false } : x));
+  return { ...db, subjects, resources, dayModes: db.dayModes ?? [], logs: db.logs ?? [] };
 }
 
 let saveTimer: number | undefined;

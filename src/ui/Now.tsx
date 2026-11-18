@@ -248,11 +248,9 @@ function Evening({ db, plan, day }: { db: DB; plan: E.DayPlan; day: string }) {
   const tomorrow = (() => { for (let i = 1; i < 4; i++) { const p = E.dayPlan(db, addDays(day, i)); if (p.items.length) return p; } return null; })();
   const lines: string[] = [];
   lines.push(`Сделано ${plan.doneCount} из ${plan.totalCount} (${Math.round(plan.pct * 100)}%).`);
-  if (open.length) lines.push(`Перенесётся понемногу на следующие дни: ${open.map((i) => i.subject.ru).join(', ')}.`);
+  if (open.length) lines.push(`Не сделано: ${open.map((i) => i.subject.ru).join(', ')} — завтра продолжите с того же места, норма прежняя.`);
   if (tomorrow) {
-    const adds = tomorrow.items.filter((i) => i.addon > 0);
     lines.push(`${tomorrow.day === addDays(day, 1) ? 'Завтра' : fmtDay(tomorrow.day)}: ${tomorrow.items.length} дел, первое — ${tomorrow.items[0].subject.ru} в ${fmtMin(tomorrow.items[0].start)}.`);
-    if (adds.length) lines.push(`Добор: ${adds.map((i) => `${i.subject.ru} +${E.fmtNum(i.addon)}`).join(', ')}.`);
   }
   return (
     <section className="card" style={{ padding: 16 }}>

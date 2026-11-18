@@ -72,7 +72,7 @@ export function SummaryScreen({ db }: { db: DB }) {
                 </div>
               ))}
             </div>
-            {behind && <div className="answer" style={{ marginTop: 10 }}>Больше всего отстаёт <b>{behind.s.ru}</b>. Недобор сам разложится на ближайшие дни небольшими добавками.</div>}
+            {behind && <div className="answer" style={{ marginTop: 10 }}>Больше всего отстаёт <b>{behind.s.ru}</b>. Пропущенное не добавляется к норме — просто продолжайте с того места, где остановились.</div>}
           </div>
         </div>
       </div>
